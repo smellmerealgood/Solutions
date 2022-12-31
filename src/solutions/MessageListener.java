@@ -4,6 +4,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
 import solutions.commands.Help;
+import solutions.commands.Quote;
 import solutions.commands.Pins;
 
 public class MessageListener implements MessageCreateListener {
@@ -19,6 +20,8 @@ public class MessageListener implements MessageCreateListener {
 				new Help(event);
 			} else if (splitRaw[1].equals("pins") || splitRaw[1].equals("pin")) {
 				new Pins(event);
+			} else if (splitRaw[1].equals("quote")) {
+				new Quote(event, raw);
 			}
 		}
 	}

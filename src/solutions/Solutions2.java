@@ -11,7 +11,7 @@ import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
 
 public class Solutions2 {
-	public static final String TOKEN = "OTM1Mjk1MjA3NDQyOTAzMDUw.GirkDV.VIRTmk75HUVun0IuYcTaQmG1GQo1-N0ZuYv2MM";
+	public static final String TOKEN = "OTM1Mjk1MjA3NDQyOTAzMDUw.GLxE9s.333wCaC5pf9lmIir3UDkrq1CQbnf0CgQJKZZ-0";
 
 	public static void main(String[] args)
 			throws LoginException, InterruptedException, ExecutionException, IOException {

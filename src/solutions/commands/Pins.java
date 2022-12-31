@@ -12,10 +12,12 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
+import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import com.vdurmont.emoji.EmojiParser;
 
+import solutions.utilities.Attachments;
 import solutions.utilities.Date;
 
 public class Pins {
@@ -87,21 +89,14 @@ public class Pins {
 
 		Message current = channel.getMessageById(messageIds.get(iteration)).join();
 
-		List<MessageAttachment> attachments = current.getAttachments();
-		List<URL> URLs = new ArrayList<URL>();
-
-		for (MessageAttachment attachment : attachments) {
-			URLs.add(attachment.getUrl());
-		}
-
 		String message = "\n```fix\n" + current.getAuthor().getDiscriminatedName() + "\n"
 				+ Date.convertDate(current.getCreationTimestamp()) + "\n" + (iteration + 1) + "/" + messageIds.size()
 				+ "```\n" + current.getContent();
 
-		for (URL url : URLs) {
+		for (URL url : Attachments.getAttachmentLinks(current)) {
 			message += "\n" + url;
 		}
-
+		new MessageBuilder() //THIS
 		if (messageId == -1) {
 			return new Pair(channel.sendMessage(message).join(), iteration);
 		} else {
