@@ -14,7 +14,7 @@ public class Solutions {
 	public static void main(String[] args)
 			throws LoginException, InterruptedException, ExecutionException, IOException {
 		DiscordApi api = new DiscordApiBuilder().setAccountType(AccountType.CLIENT)
-				.addMessageCreateListener(new MessageListener()).setToken("OTM1Mjk1MjA3NDQyOTAzMDUw.Gnnxy6._Qoz1A63agARq64A7pK6uWggWAGnYhbGiG-c7s").login().join();
+				.addMessageCreateListener(new MessageListener()).setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
 	}
 }
