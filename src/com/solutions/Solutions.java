@@ -13,6 +13,8 @@ import org.javacord.api.entity.activity.ActivityType;
 public class Solutions {
 	public static void main(String[] args)
 			throws LoginException, InterruptedException, ExecutionException, IOException {
+		System.out.println(System.getenv("TOKEN"));
+		
 		DiscordApi api = new DiscordApiBuilder().setAccountType(AccountType.CLIENT)
 				.addMessageCreateListener(new MessageListener()).setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
