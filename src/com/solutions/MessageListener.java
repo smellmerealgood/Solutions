@@ -22,7 +22,7 @@ public class MessageListener implements MessageCreateListener {
 		if (!event.getMessageAuthor().asUser().get().getDiscriminatedName()
 				.equals(event.getApi().getYourself().getDiscriminatedName()) && splitRaw[0].equals("sol")) {
 			Message sentMessage = Responses.workingOnIt(event.getMessage(), false);
-			
+
 			event.getChannel().type();
 
 			if (splitRaw[1].equals("help") || splitRaw[1].equals("?")) {
@@ -44,6 +44,12 @@ public class MessageListener implements MessageCreateListener {
 				new RemoveQuote(event, sentMessage, splitRaw[2]);
 			} else {
 				Responses.unknownCommand(sentMessage, true);
+			}
+
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
