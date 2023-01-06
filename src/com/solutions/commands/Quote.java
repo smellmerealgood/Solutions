@@ -18,31 +18,28 @@ public class Quote {
 
 		sentMessage.edit("```fix\nWho said this quote?\nMention the user(s) or provide text input```");
 
-		var wrapper = new Object() {
-			String authors = "";
-			boolean gotResponse = false;
-		};
+		Object[] wrapper = { "", false };
 
 		event.getChannel().addMessageCreateListener(input -> {
-			if (!wrapper.gotResponse
+			if (!(boolean) wrapper[1]
 					&& input.getMessageAuthor().getIdAsString().equals(event.getMessageAuthor().getIdAsString())) {
-				wrapper.authors = input.getMessageContent();
+				wrapper[0] = input.getMessageContent();
 
 				MessageBuilder mb = new MessageBuilder().copy(event.getMessage()).removeContent()
 						.setContent(input.getMessageContent() + " at ").appendTimestamp(message.getCreationTimestamp());
 
-				if (!quote.isBlank()) {
+				if (!quote.isEmpty()) {
 					mb.append("\n\n>>> " + quote);
 				}
 
 				mb.send(event.getApi().getTextChannelById("1040832617773285376").get()).join();
 
-				wrapper.gotResponse = true;
+				wrapper[1] = true;
 				return;
 			}
 		}).removeAfter(1, TimeUnit.MINUTES).addRemoveHandler(new Runnable() {
 			public void run() {
-				if (wrapper.authors.isBlank()) {
+				if (((String) wrapper[0]).isEmpty()) {
 					Responses.tooLongToRespond(message, false);
 				}
 			}

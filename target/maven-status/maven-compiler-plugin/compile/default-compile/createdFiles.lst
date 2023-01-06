@@ -3,8 +3,6 @@ com\solutions\commands\RemoveQuote.class
 com\solutions\commands\Quote.class
 com\solutions\utilities\Responses.class
 com\solutions\MessageListener.class
-com\solutions\commands\Quote$2.class
-com\solutions\commands\Pins$1.class
 com\solutions\commands\Quote$1.class
 com\solutions\Solutions.class
 com\solutions\commands\Pins.class

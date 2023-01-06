@@ -41,11 +41,9 @@ public class Pins {
 			messageIds.add(pins[i].toString().substring(13, 32));
 		}
 
-		var wrapper = new Object() {
-			int iteration = 0;
-		};
+		int[] wrapper = { 0 };
 
-		getPin(event, messageIds, wrapper.iteration, sentMessage);
+		getPin(event, messageIds, wrapper[0], sentMessage);
 
 		sentMessage.addReactions(
 				new String[] { EmojiParser.parseToUnicode(":rewind:"), EmojiParser.parseToUnicode(":arrow_backward:"),
@@ -54,7 +52,7 @@ public class Pins {
 					sentMessage.addReactionAddListener(addReaction -> {
 						if (!addReaction.getUserIdAsString()
 								.equals(addReaction.getApi().getYourself().getIdAsString())) {
-							wrapper.iteration = onReaction(event, addReaction.getEmoji(), messageIds, wrapper.iteration,
+							wrapper[0] = onReaction(event, addReaction.getEmoji(), messageIds, wrapper[0],
 									sentMessage);
 						}
 					}).removeAfter(30, TimeUnit.MINUTES);
@@ -62,8 +60,8 @@ public class Pins {
 					sentMessage.addReactionRemoveListener(removeReaction -> {
 						if (!removeReaction.getUserIdAsString()
 								.equals(removeReaction.getApi().getYourself().getIdAsString())) {
-							wrapper.iteration = onReaction(event, removeReaction.getEmoji(), messageIds,
-									wrapper.iteration, sentMessage);
+							wrapper[0] = onReaction(event, removeReaction.getEmoji(), messageIds,
+									wrapper[0], sentMessage);
 						}
 					}).removeAfter(30, TimeUnit.MINUTES);
 				});
@@ -103,7 +101,7 @@ public class Pins {
 				.append(codeBlock + current.getUserAuthor().get().getMentionTag() + " at ")
 				.appendTimestamp(current.getCreationTimestamp());
 
-		if (!currentContent.isBlank()) {
+		if (!currentContent.isEmpty()) {
 			mu.append("\n\n>>> " + currentContent);
 		}
 
@@ -114,7 +112,7 @@ public class Pins {
 				mu.addAttachment(attachment.getUrl());
 			}
 		}
-		
+
 		mu.replaceMessage().join();
 
 		return iteration;
