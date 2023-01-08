@@ -35,15 +35,21 @@ public class Solutions {
 					.equals(event.getApi().getYourself().getDiscriminatedName()) && splitRaw[0].equals("sol")) {
 				Message sentMessage = Responses.workingOnIt(event.getMessage(), false);
 
-				event.getChannel().type();
+				if (splitRaw.length < 2) {
+					Responses.unknownCommand(sentMessage, true);
+					return;
+				}
 
-				if (splitRaw[1].equals("help") || splitRaw[1].equals("?")) {
-					new Help(event, sentMessage);
-				} else if (splitRaw[1].equals("pins") || splitRaw[1].equals("pin") || splitRaw[1].equals("listpins")
-						|| splitRaw[1].equals("listpin") || splitRaw[1].equals("pinslist")
-						|| splitRaw[1].equals("pinlist")) {
+				if (Help.names.contains(splitRaw[1])) {
+					try {
+						new Help(event, sentMessage);
+					} catch (NoSuchFieldException | SecurityException | IllegalArgumentException
+							| IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				} else if (Pins.names.contains(splitRaw[1])) {
 					new Pins(event, sentMessage);
-				} else if (splitRaw[1].equals("quote")) {
+				} else if (Quote.names.contains(splitRaw[1])) {
 					if (splitRaw.length > 2 || !event.getMessageAttachments().isEmpty()) {
 						List<String> arguments = new LinkedList<String>(Arrays.asList(splitRaw));
 
@@ -52,8 +58,16 @@ public class Solutions {
 
 						new Quote(event, sentMessage, String.join(" ", arguments), event.getMessageAttachments());
 					}
-				} else if (splitRaw[1].equals("removequote")) {
-					new RemoveQuote(event, sentMessage, splitRaw[2]);
+				} else if (RemoveQuote.names.contains(splitRaw[1])) {
+					if (splitRaw.length > 2) {
+						try {
+							new RemoveQuote(event, sentMessage, splitRaw[2]);
+						} catch (IllegalArgumentException | InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
+					} else {
+						Responses.unknownArguments(sentMessage, true);
+					}
 				} else {
 					Responses.unknownCommand(sentMessage, true);
 				}

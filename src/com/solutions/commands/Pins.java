@@ -3,6 +3,7 @@
 package com.solutions.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -14,14 +15,17 @@ import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageUpdater;
 import org.javacord.api.event.message.MessageCreateEvent;
 
+import com.solutions.utilities.Responses;
 import com.vdurmont.emoji.EmojiParser;
 
-import com.solutions.utilities.Responses;
-
 public class Pins {
+	public static final String parameters = "";
+	public static final List<String> names = new ArrayList<String>(
+			Arrays.asList("pins", "pin", "listpins", "listpin", "pinslist", "pinlist"));
+	public static final String description = "Displays this channel's pins";
+
 	public Pins(MessageCreateEvent event, Message sentMessage) {
 		TextChannel channel = event.getChannel();
-
 		Object[] pins = null;
 
 		try {
@@ -52,22 +56,21 @@ public class Pins {
 					sentMessage.addReactionAddListener(addReaction -> {
 						if (!addReaction.getUserIdAsString()
 								.equals(addReaction.getApi().getYourself().getIdAsString())) {
-							wrapper[0] = onReaction(event, addReaction.getEmoji(), messageIds, wrapper[0],
-									sentMessage);
+							wrapper[0] = onReaction(event, addReaction.getEmoji(), messageIds, wrapper[0], sentMessage);
 						}
 					}).removeAfter(30, TimeUnit.MINUTES);
 
 					sentMessage.addReactionRemoveListener(removeReaction -> {
 						if (!removeReaction.getUserIdAsString()
 								.equals(removeReaction.getApi().getYourself().getIdAsString())) {
-							wrapper[0] = onReaction(event, removeReaction.getEmoji(), messageIds,
-									wrapper[0], sentMessage);
+							wrapper[0] = onReaction(event, removeReaction.getEmoji(), messageIds, wrapper[0],
+									sentMessage);
 						}
 					}).removeAfter(30, TimeUnit.MINUTES);
 				});
 	}
 
-	public int onReaction(MessageCreateEvent event, Emoji emoji, List<String> messageIds, int iteration,
+	private int onReaction(MessageCreateEvent event, Emoji emoji, List<String> messageIds, int iteration,
 			Message sentMessage) {
 		Responses.workingOnIt(sentMessage, true);
 
@@ -84,7 +87,7 @@ public class Pins {
 		return iteration;
 	}
 
-	public static int getPin(MessageCreateEvent event, List<String> messageIds, int iteration, Message sentMessage) {
+	private static int getPin(MessageCreateEvent event, List<String> messageIds, int iteration, Message sentMessage) {
 		if (iteration < 0) {
 			iteration = 0;
 		} else if (iteration > messageIds.size() - 1) {

@@ -1,22 +1,31 @@
 package com.solutions.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageBuilder;
+import org.javacord.api.entity.message.MessageUpdater;
 import org.javacord.api.event.message.MessageCreateEvent;
 
+import com.solutions.utilities.Markdown;
 import com.solutions.utilities.Responses;
 
 public class Quote {
+	public static final String parameters = "text or attachment";
+	public static final List<String> names = new ArrayList<String>(Arrays.asList("quote"));
+	public static final String description = "Quotes a person and puts it into the quotes group chat";
+
 	public Quote(MessageCreateEvent event, Message sentMessage, String quote, List<MessageAttachment> attachments) {
-		TextChannel channel = event.getChannel();
 		Message message = event.getMessage();
 
-		sentMessage.edit("```fix\nWho said this quote?\nMention the user(s) or provide text input```");
+		new MessageUpdater(sentMessage)
+				.appendCode("ansi",
+						Markdown.ANSI("Who said this quote?\nMention the user(s) or provide text input", Markdown.CYAN))
+				.replaceMessage();
 
 		Object[] wrapper = { "", false };
 
