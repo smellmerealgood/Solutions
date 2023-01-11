@@ -23,8 +23,8 @@ import com.solutions.utilities.Responses;
 public class Solutions {
 	public static void main(String[] args)
 			throws LoginException, InterruptedException, ExecutionException, IOException {
-		DiscordApi api = new DiscordApiBuilder().setAccountType(AccountType.CLIENT).setToken(System.getenv("TOKEN"))
-				.login().join();
+		DiscordApi api = new DiscordApiBuilder().setAccountType(AccountType.CLIENT)
+				.setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
 
 		api.addMessageCreateListener(event -> {

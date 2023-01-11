@@ -1,5 +1,3 @@
-//fix bot not removing attachments when changing to another pin
-
 package com.solutions.commands;
 
 import java.util.ArrayList;
@@ -15,6 +13,7 @@ import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageUpdater;
 import org.javacord.api.event.message.MessageCreateEvent;
 
+import com.solutions.utilities.Markdown;
 import com.solutions.utilities.Responses;
 import com.vdurmont.emoji.EmojiParser;
 
@@ -35,7 +34,9 @@ public class Pins {
 		}
 
 		if (pins.length == 0) {
-			channel.sendMessage("```fix\nThere are no pins in this channel```");
+			new MessageUpdater(sentMessage)
+					.appendCode("ansi", Markdown.ANSI("There are no pins in this channel", Markdown.CYAN))
+					.replaceMessage();
 			return;
 		}
 
