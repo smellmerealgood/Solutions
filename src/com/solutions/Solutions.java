@@ -14,6 +14,7 @@ import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.message.Message;
 
+import com.solutions.commands.Debug;
 import com.solutions.commands.Help;
 import com.solutions.commands.Pins;
 import com.solutions.commands.Quote;
@@ -23,8 +24,8 @@ import com.solutions.utilities.Responses;
 public class Solutions {
 	public static void main(String[] args)
 			throws LoginException, InterruptedException, ExecutionException, IOException {
-		DiscordApi api = new DiscordApiBuilder().setAccountType(AccountType.CLIENT)
-				.setToken(System.getenv("TOKEN")).login().join();
+		DiscordApi api = new DiscordApiBuilder().setAccountType(AccountType.CLIENT).setToken(System.getenv("TOKEN"))
+				.login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
 
 		api.addMessageCreateListener(event -> {
@@ -68,6 +69,8 @@ public class Solutions {
 					} else {
 						Responses.unknownArguments(sentMessage, true);
 					}
+				} else if (Debug.names.contains(splitRaw[1])) {
+					new Debug(event, sentMessage);
 				} else {
 					Responses.unknownCommand(sentMessage, true);
 				}
