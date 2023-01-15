@@ -32,4 +32,4 @@ public class Debug {
 								+ Markdown.ANSI(Runtime.getRuntime().totalMemory() / mb + " MB", Markdown.BLUE))
 				.replaceMessage();
 	}
-}Q
+}
