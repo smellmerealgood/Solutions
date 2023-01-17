@@ -1,8 +1,10 @@
 com\solutions\commands\Help.class
 com\solutions\commands\RemoveQuote.class
 com\solutions\commands\Quote.class
-com\solutions\utilities\Responses.class
-com\solutions\commands\Quote$1.class
+com\solutions\commands\Debug.class
 com\solutions\Solutions.class
 com\solutions\commands\Pins.class
 com\solutions\utilities\Date.class
+com\solutions\utilities\Responses.class
+com\solutions\commands\Quote$1.class
+com\solutions\utilities\Markdown.class
