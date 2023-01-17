@@ -1,12 +1,6 @@
-FROM eclipse-temurin:17-jdk-jammy
-
-WORKDIR /app
-
-COPY .mvn/ .mvn
-RUN dos2unix mvnw
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:resolve
-
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
+FROM maven:3.8-jdk-11
+RUN mkdir /project
+COPY . /project
+WORKDIR /project
+RUN mvn clean package -DskipTests
+CMD ["java", "-jar", "target/Solutions-1.0.jar"]
