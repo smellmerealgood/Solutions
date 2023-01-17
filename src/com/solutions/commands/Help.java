@@ -1,6 +1,7 @@
 package com.solutions.commands;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,35 +14,44 @@ import com.solutions.utilities.Markdown;
 
 public class Help {
 	public static final String parameters = "";
-	public static final List<String> names = new ArrayList<String>(Arrays.asList("help", "?"));
+	public static final List<String> names = new ArrayList<String>(
+			Arrays.asList("help", "?"));
 	public static final String description = "Displays a list of commands for this bot";
 
 	public Help(MessageCreateEvent event, Message sentMessage)
-			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		String helpMessage = Markdown.ANSI("Commands\n", Markdown.BOLD, Markdown.RED);
+			throws NoSuchFieldException, SecurityException,
+			IllegalArgumentException, IllegalAccessException {
+		String helpMessage = Markdown.ANSI("Commands\n", Markdown.BOLD,
+				Markdown.RED);
 
-		for (File file : new File(System.getProperty("user.dir") + "\\src\\com\\solutions\\commands").listFiles()) {
+		for (File file : new File(Paths.get("").toAbsolutePath()
+				+ "\\src\\com\\solutions\\commands").listFiles()) {
 			Class<?> currentClass = null;
 
 			try {
-				currentClass = Class.forName(
-						"com.solutions.commands." + file.getName().substring(0, file.getName().lastIndexOf(".")));
+				currentClass = Class
+						.forName("com.solutions.commands." + file.getName()
+								.substring(0, file.getName().lastIndexOf(".")));
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 
 			helpMessage += "\t"
-					+ Markdown.ANSI(currentClass.getSimpleName().toLowerCase(), Markdown.BOLD, Markdown.CYAN);
+					+ Markdown.ANSI(currentClass.getSimpleName().toLowerCase(),
+							Markdown.BOLD, Markdown.CYAN);
 
-			String parameters = (String) currentClass.getDeclaredField("parameters").get(this);
+			String parameters = (String) currentClass
+					.getDeclaredField("parameters").get(this);
 
 			if (!parameters.isEmpty()) {
-				helpMessage += Markdown.ANSI(" <", Markdown.GRAY) + Markdown.ANSI(parameters, Markdown.RED)
+				helpMessage += Markdown.ANSI(" <", Markdown.GRAY)
+						+ Markdown.ANSI(parameters, Markdown.RED)
 						+ Markdown.ANSI(">", Markdown.GRAY);
 			}
 
 			@SuppressWarnings("unchecked")
-			List<String> names = (List<String>) currentClass.getDeclaredField("names").get(this);
+			List<String> names = (List<String>) currentClass
+					.getDeclaredField("names").get(this);
 
 			if (names.size() > 1) {
 				helpMessage += " (aliases: ";
@@ -58,10 +68,14 @@ public class Help {
 			}
 
 			helpMessage += "\n\t\t• "
-					+ Markdown.ANSI((String) currentClass.getDeclaredField("description").get(this), Markdown.BLUE)
+					+ Markdown.ANSI(
+							(String) currentClass
+									.getDeclaredField("description").get(this),
+							Markdown.BLUE)
 					+ "\n\n";
 		}
 
-		new MessageUpdater(sentMessage).appendCode("ansi", helpMessage).replaceMessage().join();
+		new MessageUpdater(sentMessage).appendCode("ansi", helpMessage)
+				.replaceMessage().join();
 	}
 }
