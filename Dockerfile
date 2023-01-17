@@ -1,5 +1,3 @@
-RUN echo "I am here"
-
 FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
