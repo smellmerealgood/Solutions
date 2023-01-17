@@ -22,10 +22,12 @@ import com.solutions.commands.RemoveQuote;
 import com.solutions.utilities.Responses;
 
 public class Solutions {
-	public static void main(String[] args)
-			throws LoginException, InterruptedException, ExecutionException, IOException {
-		DiscordApi api = new DiscordApiBuilder().setAccountType(AccountType.CLIENT).setToken(System.getenv("TOKEN"))
-				.login().join();
+	public static void main(String[] args) throws LoginException,
+			InterruptedException, ExecutionException, IOException {
+		System.out.println(System.getProperty("user.dir"));
+		DiscordApi api = new DiscordApiBuilder()
+				.setAccountType(AccountType.CLIENT)
+				.setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
 
 		api.addMessageCreateListener(event -> {
@@ -33,8 +35,10 @@ public class Solutions {
 			String[] splitRaw = raw.split(" ");
 
 			if (!event.getMessageAuthor().asUser().get().getDiscriminatedName()
-					.equals(event.getApi().getYourself().getDiscriminatedName()) && splitRaw[0].equals("sol")) {
-				Message sentMessage = Responses.workingOnIt(event.getMessage(), false);
+					.equals(event.getApi().getYourself().getDiscriminatedName())
+					&& splitRaw[0].equals("sol")) {
+				Message sentMessage = Responses.workingOnIt(event.getMessage(),
+						false);
 
 				if (splitRaw.length < 2) {
 					Responses.unknownCommand(sentMessage, true);
@@ -44,26 +48,32 @@ public class Solutions {
 				if (Help.names.contains(splitRaw[1])) {
 					try {
 						new Help(event, sentMessage);
-					} catch (NoSuchFieldException | SecurityException | IllegalArgumentException
+					} catch (NoSuchFieldException | SecurityException
+							| IllegalArgumentException
 							| IllegalAccessException e) {
 						e.printStackTrace();
 					}
 				} else if (Pins.names.contains(splitRaw[1])) {
 					new Pins(event, sentMessage);
 				} else if (Quote.names.contains(splitRaw[1])) {
-					if (splitRaw.length > 2 || !event.getMessageAttachments().isEmpty()) {
-						List<String> arguments = new LinkedList<String>(Arrays.asList(splitRaw));
+					if (splitRaw.length > 2
+							|| !event.getMessageAttachments().isEmpty()) {
+						List<String> arguments = new LinkedList<String>(
+								Arrays.asList(splitRaw));
 
 						arguments.remove(0);
 						arguments.remove(0);
 
-						new Quote(event, sentMessage, String.join(" ", arguments), event.getMessageAttachments());
+						new Quote(event, sentMessage,
+								String.join(" ", arguments),
+								event.getMessageAttachments());
 					}
 				} else if (RemoveQuote.names.contains(splitRaw[1])) {
 					if (splitRaw.length > 2) {
 						try {
 							new RemoveQuote(event, sentMessage, splitRaw[2]);
-						} catch (IllegalArgumentException | InterruptedException | ExecutionException e) {
+						} catch (IllegalArgumentException | InterruptedException
+								| ExecutionException e) {
 							e.printStackTrace();
 						}
 					} else {
