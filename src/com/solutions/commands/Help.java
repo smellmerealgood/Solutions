@@ -1,7 +1,6 @@
 package com.solutions.commands;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +23,7 @@ public class Help {
 		String helpMessage = Markdown.ANSI("Commands\n", Markdown.BOLD,
 				Markdown.RED);
 
-		for (File file : new File(Paths.get("").toAbsolutePath()
+		for (File file : new File(System.getProperty("user.dir")
 				+ "\\src\\com\\solutions\\commands").listFiles()) {
 			Class<?> currentClass = null;
 
