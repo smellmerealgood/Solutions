@@ -1,10 +1,13 @@
 com\solutions\commands\Help.class
 com\solutions\commands\RemoveQuote.class
 com\solutions\commands\Quote.class
+META-INF\MANIFEST.MF
+META-INF\maven\Solutions\Solutions\pom.xml
 com\solutions\commands\Debug.class
 com\solutions\Solutions.class
 com\solutions\commands\Pins.class
 com\solutions\utilities\Date.class
 com\solutions\utilities\Responses.class
+META-INF\maven\Solutions\Solutions\pom.properties
 com\solutions\commands\Quote$1.class
 com\solutions\utilities\Markdown.class
