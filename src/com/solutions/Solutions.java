@@ -1,6 +1,5 @@
 package com.solutions;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -25,9 +24,6 @@ import com.solutions.utilities.Responses;
 public class Solutions {
 	public static void main(String[] args) throws LoginException,
 			InterruptedException, ExecutionException, IOException {
-		System.out.println(Arrays
-				.toString(new File(System.getProperty("user.dir")).list()));
-
 		DiscordApi api = new DiscordApiBuilder()
 				.setAccountType(AccountType.CLIENT)
 				.setToken(System.getenv("TOKEN")).login().join();
