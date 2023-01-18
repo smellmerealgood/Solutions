@@ -25,8 +25,9 @@ import com.solutions.utilities.Responses;
 public class Solutions {
 	public static void main(String[] args) throws LoginException,
 			InterruptedException, ExecutionException, IOException {
-		System.out.println(new File(System.getProperty("user.dir")).list());
-		
+		System.out.println(Arrays
+				.toString(new File(System.getProperty("user.dir")).list()));
+
 		DiscordApi api = new DiscordApiBuilder()
 				.setAccountType(AccountType.CLIENT)
 				.setToken(System.getenv("TOKEN")).login().join();
