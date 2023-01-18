@@ -12,10 +12,10 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import com.solutions.utilities.Markdown;
 
 public class Help {
-	public static final String parameters = "";
 	public static final List<String> names = new ArrayList<String>(
 			Arrays.asList("help", "?"));
-	public static final String description = "Displays a list of commands for this bot";
+	public static final String parameters = "",
+			description = "Displays a list of commands for this bot";
 
 	public Help(MessageCreateEvent event, Message sentMessage)
 			throws NoSuchFieldException, SecurityException,

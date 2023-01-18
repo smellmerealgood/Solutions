@@ -18,10 +18,11 @@ import com.solutions.utilities.Responses;
 import com.vdurmont.emoji.EmojiParser;
 
 public class Pins {
-	public static final String parameters = "";
 	public static final List<String> names = new ArrayList<String>(
-			Arrays.asList("pins", "pin", "listpins", "listpin", "pinslist", "pinlist"));
-	public static final String description = "Displays this channel's pins";
+			Arrays.asList("pins", "pin", "listpins", "listpin", "pinslist",
+					"pinlist"));
+	public static final String parameters = "",
+			description = "Displays this channel's pins";
 
 	public Pins(MessageCreateEvent event, Message sentMessage) {
 		TextChannel channel = event.getChannel();
@@ -35,7 +36,8 @@ public class Pins {
 
 		if (pins.length == 0) {
 			new MessageUpdater(sentMessage)
-					.appendCode("ansi", Markdown.ANSI("There are no pins in this channel", Markdown.CYAN))
+					.appendCode("ansi", Markdown.ANSI(
+							"There are no pins in this channel", Markdown.CYAN))
 					.replaceMessage();
 			return;
 		}
@@ -46,63 +48,77 @@ public class Pins {
 			messageIds.add(pins[i].toString().substring(13, 32));
 		}
 
-		int[] wrapper = { 0 };
+		int[] wrapper = {0};
 
 		getPin(event, messageIds, wrapper[0], sentMessage);
 
-		sentMessage.addReactions(
-				new String[] { EmojiParser.parseToUnicode(":rewind:"), EmojiParser.parseToUnicode(":arrow_backward:"),
-						EmojiParser.parseToUnicode(":arrow_forward:"), EmojiParser.parseToUnicode(":fast_forward:") })
+		sentMessage
+				.addReactions(
+						new String[]{EmojiParser.parseToUnicode(":rewind:"),
+								EmojiParser.parseToUnicode(":arrow_backward:"),
+								EmojiParser.parseToUnicode(":arrow_forward:"),
+								EmojiParser.parseToUnicode(":fast_forward:")})
 				.thenAccept(reaction -> {
 					sentMessage.addReactionAddListener(addReaction -> {
-						if (!addReaction.getUserIdAsString()
-								.equals(addReaction.getApi().getYourself().getIdAsString())) {
-							wrapper[0] = onReaction(event, addReaction.getEmoji(), messageIds, wrapper[0], sentMessage);
+						if (!addReaction.getUserIdAsString().equals(addReaction
+								.getApi().getYourself().getIdAsString())) {
+							wrapper[0] = onReaction(event,
+									addReaction.getEmoji(), messageIds,
+									wrapper[0], sentMessage);
 						}
 					}).removeAfter(30, TimeUnit.MINUTES);
 
 					sentMessage.addReactionRemoveListener(removeReaction -> {
 						if (!removeReaction.getUserIdAsString()
-								.equals(removeReaction.getApi().getYourself().getIdAsString())) {
-							wrapper[0] = onReaction(event, removeReaction.getEmoji(), messageIds, wrapper[0],
-									sentMessage);
+								.equals(removeReaction.getApi().getYourself()
+										.getIdAsString())) {
+							wrapper[0] = onReaction(event,
+									removeReaction.getEmoji(), messageIds,
+									wrapper[0], sentMessage);
 						}
 					}).removeAfter(30, TimeUnit.MINUTES);
 				});
 	}
 
-	private int onReaction(MessageCreateEvent event, Emoji emoji, List<String> messageIds, int iteration,
-			Message sentMessage) {
+	private int onReaction(MessageCreateEvent event, Emoji emoji,
+			List<String> messageIds, int iteration, Message sentMessage) {
 		Responses.workingOnIt(sentMessage, true);
 
 		if (emoji.equalsEmoji(EmojiParser.parseToUnicode(":rewind:"))) {
 			return Pins.getPin(event, messageIds, 0, sentMessage);
-		} else if (emoji.equalsEmoji(EmojiParser.parseToUnicode(":arrow_backward:"))) {
+		} else if (emoji
+				.equalsEmoji(EmojiParser.parseToUnicode(":arrow_backward:"))) {
 			return Pins.getPin(event, messageIds, iteration - 1, sentMessage);
-		} else if (emoji.equalsEmoji(EmojiParser.parseToUnicode(":arrow_forward:"))) {
+		} else if (emoji
+				.equalsEmoji(EmojiParser.parseToUnicode(":arrow_forward:"))) {
 			return Pins.getPin(event, messageIds, iteration + 1, sentMessage);
-		} else if (emoji.equalsEmoji(EmojiParser.parseToUnicode(":fast_forward:"))) {
-			return Pins.getPin(event, messageIds, messageIds.size() - 1, sentMessage);
+		} else if (emoji
+				.equalsEmoji(EmojiParser.parseToUnicode(":fast_forward:"))) {
+			return Pins.getPin(event, messageIds, messageIds.size() - 1,
+					sentMessage);
 		}
 
 		return iteration;
 	}
 
-	private static int getPin(MessageCreateEvent event, List<String> messageIds, int iteration, Message sentMessage) {
+	private static int getPin(MessageCreateEvent event, List<String> messageIds,
+			int iteration, Message sentMessage) {
 		if (iteration < 0) {
 			iteration = 0;
 		} else if (iteration > messageIds.size() - 1) {
 			iteration = messageIds.size() - 1;
 		}
 
-		Message current = event.getChannel().getMessageById(messageIds.get(iteration)).join();
+		Message current = event.getChannel()
+				.getMessageById(messageIds.get(iteration)).join();
 
-		String codeBlock = "`" + (iteration + 1) + "/" + messageIds.size() + "`\n";
+		String codeBlock = "`" + (iteration + 1) + "/" + messageIds.size()
+				+ "`\n";
 
 		String currentContent = current.getContent();
 
-		MessageUpdater mu = new MessageUpdater(sentMessage)
-				.append(codeBlock + current.getUserAuthor().get().getMentionTag() + " at ")
+		MessageUpdater mu = new MessageUpdater(sentMessage).append(codeBlock
+				+ current.getUserAuthor().get().getMentionTag() + " at ")
 				.appendTimestamp(current.getCreationTimestamp());
 
 		if (!currentContent.isEmpty()) {
