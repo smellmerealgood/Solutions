@@ -23,11 +23,9 @@ public class Help {
 		String helpMessage = Markdown.ANSI("Commands\n", Markdown.BOLD,
 				Markdown.RED);
 
-		for (String current : new File(System.getProperty("user.dir")
-				+ "\\src\\com\\solutions\\commands").list()) {
+		for (File file : new File(System.getProperty("user.dir")
+				+ "\\src\\com\\solutions\\commands").listFiles()) {
 			Class<?> currentClass = null;
-
-			File file = new File(current);
 
 			try {
 				currentClass = Class
