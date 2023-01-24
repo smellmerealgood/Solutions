@@ -1,6 +1,5 @@
 package com.solutions.commands;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -79,7 +78,7 @@ public class Help {
 					helpMessage += ")";
 				}
 
-				helpMessage += "\n\t\t• "
+				helpMessage += "\n\t\t- "
 						+ Markdown.ANSI(
 								(String) currentClass
 										.getDeclaredField("description").get(this),
