@@ -28,6 +28,8 @@ public class Solutions {
 				.setAccountType(AccountType.CLIENT)
 				.setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
+		
+		new Countdown(api);
 
 		api.addMessageCreateListener(event -> {
 			String raw = event.getMessage().getContent().toLowerCase();
