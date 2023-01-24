@@ -25,13 +25,7 @@ public class Help {
 			IllegalArgumentException, IllegalAccessException {
 		String helpMessage = Markdown.ANSI("Commands\n", Markdown.BOLD,
 				Markdown.RED);
-		try {
-			Files.list(Paths.get(System.getProperty("user.dir")
-					+ "\\src\\com\\solutions\\commands"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
+		
 		try {
 			for (Object object : Files.list(Paths.get(System.getProperty("user.dir")
 					+ "/src/com/solutions/commands")).toArray()) {
