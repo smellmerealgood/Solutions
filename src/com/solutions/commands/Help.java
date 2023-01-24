@@ -35,7 +35,7 @@ public class Help {
 
 		try {
 			for (Object object : Files.list(Paths.get(System.getProperty("user.dir")
-					+ "\\src\\com\\solutions\\commands")).toArray()) {
+					+ "/src/com/solutions/commands")).toArray()) {
 				Class<?> currentClass = null;
 
 				Path file = (Path) object;
@@ -89,6 +89,7 @@ public class Help {
 		} catch (IllegalArgumentException | IllegalAccessException
 				| NoSuchFieldException | SecurityException | IOException e) {
 			e.printStackTrace();
+			return;
 		}
 
 		new MessageUpdater(sentMessage).appendCode("ansi", helpMessage)
