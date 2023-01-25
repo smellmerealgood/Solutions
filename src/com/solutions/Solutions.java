@@ -29,6 +29,8 @@ public class Solutions {
 				.setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
 		
+		System.out.println(api.getCurrentShard());
+		
 		new Countdown(api);
 
 		api.addMessageCreateListener(event -> {
