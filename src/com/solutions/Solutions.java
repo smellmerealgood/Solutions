@@ -1,6 +1,11 @@
 package com.solutions;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,15 +27,23 @@ import com.solutions.commands.RemoveQuote;
 import com.solutions.utilities.Responses;
 
 public class Solutions {
+	static {
+		try {
+			new ServerSocket(65000, 10, InetAddress.getLocalHost()).close();
+		} catch (UnknownHostException e) {
+		} catch (IOException e) {
+			System.out.print("Already an instance running. Terminating...");
+			System.exit(0);
+		}
+	}
+
 	public static void main(String[] args) throws LoginException,
 			InterruptedException, ExecutionException, IOException {
 		DiscordApi api = new DiscordApiBuilder()
 				.setAccountType(AccountType.CLIENT)
 				.setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
-		
-		System.out.println(api.getCurrentShard());
-		
+
 		new Countdown(api);
 
 		api.addMessageCreateListener(event -> {
