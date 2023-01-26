@@ -15,20 +15,16 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 
 import org.javacord.api.DiscordApi;
-import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Countdown {
-	// key : AIzaSyCAoPw48ZlxqEb9_6geUQGtdzQgHWdsLo8
-	// cx : 30205d639fbd94f38
-
 	public Countdown(DiscordApi api) {
 		Timer timer = new Timer();
 		Calendar date = Calendar.getInstance();
-		date.set(Calendar.MINUTE, 3);
+		date.set(Calendar.MINUTE, 11);
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
 
@@ -37,7 +33,7 @@ public class Countdown {
 		if (now.getHour() < 9 && now.getMinute() < 11) {
 			date.set(Calendar.HOUR_OF_DAY, 9);
 		} else {
-			date.set(Calendar.HOUR_OF_DAY, 5);
+			date.set(Calendar.HOUR_OF_DAY, 21);
 		}
 
 		timer.schedule(new TimerTask() {

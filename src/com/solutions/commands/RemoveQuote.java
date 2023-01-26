@@ -29,8 +29,7 @@ public class RemoveQuote {
 		}
 
 		event.getApi().getTextChannelById("1040832617773285376").get()
-				.deleteMessages(new String[]{messageToRemove})
-				.exceptionally(e -> {
+				.deleteMessages(messageToRemove).exceptionally(e -> {
 					Responses.error(sentMessage, true,
 							"Could not delete message\nMaybe the arguments provided were invalid or the message was not sent by this bot");
 					return null;
