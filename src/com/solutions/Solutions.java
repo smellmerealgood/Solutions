@@ -29,7 +29,6 @@ public class Solutions {
 			CHANNEL_MAIN = "1025957114671280179",
 			CHANNEL_QUOTES = "1040832617773285376",
 			CHANNEL_INSTANCE_CHECKER = "1067961290745724928";
-	public static boolean suspended = false;
 
 	public static void main(String[] args) throws LoginException,
 			InterruptedException, ExecutionException, IOException {
@@ -44,10 +43,6 @@ public class Solutions {
 		new Countdown(api);
 
 		api.addMessageCreateListener(event -> {
-			if (suspended) {
-				return;
-			}
-
 			String raw = event.getMessage().getContent().toLowerCase();
 			String[] splitRaw = raw.split(" ");
 
@@ -112,12 +107,7 @@ public class Solutions {
 				System.out.println(
 						"Detected extra instance running! Suspending process #"
 								+ PID);
-				for (Thread thread : Thread.getAllStackTraces().keySet()) {
-					if (thread.getState() == Thread.State.RUNNABLE)
-						thread.interrupt();
-				}
-
-				suspended = true;
+				api.disconnect();
 			}
 		});
 	}
