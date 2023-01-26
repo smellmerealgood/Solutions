@@ -15,6 +15,7 @@ import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageBuilder;
+import org.javacord.api.util.logging.FallbackLoggerConfiguration;
 
 import com.solutions.commands.Debug;
 import com.solutions.commands.Help;
@@ -35,6 +36,9 @@ public class Solutions {
 		DiscordApi api = new DiscordApiBuilder()
 				.setAccountType(AccountType.CLIENT)
 				.setToken(System.getenv("TOKEN")).login().join();
+
+		FallbackLoggerConfiguration.setTrace(true);
+
 		api.updateActivity(ActivityType.PLAYING, BOT_PREFIX + " help");
 
 		new MessageBuilder().setContent("pid " + PID)
@@ -105,7 +109,7 @@ public class Solutions {
 							.equals(CHANNEL_INSTANCE_CHECKER)
 					&& !splitRaw[1].equals(PID + "")) {
 				System.out.println(
-						"Detected extra instance running! Suspending process #"
+						"Detected extra instance running! Disconnecting process #"
 								+ PID);
 				api.disconnect();
 			}
