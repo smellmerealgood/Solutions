@@ -29,7 +29,7 @@ public class Solutions {
 				.setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, "sol help");
 
-		//new CheckInstances(api);
+		new CheckInstances(api);
 		
 		new Countdown(api);
 
