@@ -107,7 +107,10 @@ public class Solutions {
 				System.out.println(
 						"Detected extra instance running! Closing process #"
 								+ PID);
-				System.exit(0);
+				for (Thread thread : Thread.getAllStackTraces().keySet()) {
+					if (thread.getState() == Thread.State.RUNNABLE)
+						thread.interrupt();
+				}
 			}
 		});
 	}

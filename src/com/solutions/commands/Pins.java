@@ -24,6 +24,12 @@ public class Pins {
 	public static final String parameters = "",
 			description = "Displays this channel's pins";
 
+	private static final String[] emojis = new String[]{
+			EmojiParser.parseToUnicode(":rewind:"),
+			EmojiParser.parseToUnicode(":arrow_backward:"),
+			EmojiParser.parseToUnicode(":arrow_forward:"),
+			EmojiParser.parseToUnicode(":fast_forward:")};
+
 	public Pins(MessageCreateEvent event, Message sentMessage) {
 		TextChannel channel = event.getChannel();
 		Object[] pins = null;
@@ -52,48 +58,41 @@ public class Pins {
 
 		getPin(event, messageIds, wrapper[0], sentMessage);
 
-		sentMessage
-				.addReactions(
-						new String[]{EmojiParser.parseToUnicode(":rewind:"),
-								EmojiParser.parseToUnicode(":arrow_backward:"),
-								EmojiParser.parseToUnicode(":arrow_forward:"),
-								EmojiParser.parseToUnicode(":fast_forward:")})
-				.thenAccept(reaction -> {
-					sentMessage.addReactionAddListener(addReaction -> {
-						if (!addReaction.getUserIdAsString().equals(addReaction
-								.getApi().getYourself().getIdAsString())) {
-							wrapper[0] = onReaction(event,
-									addReaction.getEmoji(), messageIds,
-									wrapper[0], sentMessage);
-						}
-					}).removeAfter(30, TimeUnit.MINUTES);
+		sentMessage.addReactions(emojis).thenAccept(reaction -> {
+			sentMessage.addReactionAddListener(addReaction -> {
+				if (!addReaction.getUserIdAsString().equals(
+						addReaction.getApi().getYourself().getIdAsString())) {
+					wrapper[0] = onReaction(event, addReaction.getEmoji(),
+							messageIds, wrapper[0], sentMessage);
+				}
+			}).removeAfter(30, TimeUnit.MINUTES);
 
-					sentMessage.addReactionRemoveListener(removeReaction -> {
-						if (!removeReaction.getUserIdAsString()
-								.equals(removeReaction.getApi().getYourself()
-										.getIdAsString())) {
-							wrapper[0] = onReaction(event,
-									removeReaction.getEmoji(), messageIds,
-									wrapper[0], sentMessage);
+			sentMessage.addReactionRemoveListener(removeReaction -> {
+				if (!removeReaction.getUserIdAsString().equals(removeReaction
+						.getApi().getYourself().getIdAsString())) {
+					wrapper[0] = onReaction(event, removeReaction.getEmoji(),
+							messageIds, wrapper[0], sentMessage);
+				}
+			}).removeAfter(10, TimeUnit.MINUTES)
+					.addRemoveHandler(new Runnable() {
+						public void run() {
+							sentMessage.removeOwnReactionsByEmoji(emojis);
 						}
-					}).removeAfter(30, TimeUnit.MINUTES);
-				});
+					});
+		});
 	}
 
 	private int onReaction(MessageCreateEvent event, Emoji emoji,
 			List<String> messageIds, int iteration, Message sentMessage) {
 		Responses.workingOnIt(sentMessage, true);
 
-		if (emoji.equalsEmoji(EmojiParser.parseToUnicode(":rewind:"))) {
+		if (emoji.equalsEmoji(emojis[0])) {
 			return Pins.getPin(event, messageIds, 0, sentMessage);
-		} else if (emoji
-				.equalsEmoji(EmojiParser.parseToUnicode(":arrow_backward:"))) {
+		} else if (emoji.equalsEmoji(emojis[1])) {
 			return Pins.getPin(event, messageIds, iteration - 1, sentMessage);
-		} else if (emoji
-				.equalsEmoji(EmojiParser.parseToUnicode(":arrow_forward:"))) {
+		} else if (emoji.equalsEmoji(emojis[2])) {
 			return Pins.getPin(event, messageIds, iteration + 1, sentMessage);
-		} else if (emoji
-				.equalsEmoji(EmojiParser.parseToUnicode(":fast_forward:"))) {
+		} else if (emoji.equalsEmoji(emojis[3])) {
 			return Pins.getPin(event, messageIds, messageIds.size() - 1,
 					sentMessage);
 		}
