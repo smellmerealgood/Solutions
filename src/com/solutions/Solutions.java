@@ -109,8 +109,6 @@ public class Solutions {
 								+ PID);
 				System.exit(0);
 			}
-
-			System.out.println(event.getMessageContent());
 		});
 	}
 }
