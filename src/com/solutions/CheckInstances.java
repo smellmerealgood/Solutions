@@ -26,7 +26,7 @@ public class CheckInstances {
 			e.printStackTrace();
 		}
 
-		List<Long> instances = new ArrayList<String>();
+		List<Long> instances = new ArrayList<Long>();
 
 		for (Object object : channel.getMessages(100).join().toArray()) {
 			String string = object + "";
@@ -35,7 +35,7 @@ public class CheckInstances {
 					.substring(string.indexOf(":") + 2, string.indexOf(",")))
 					.join();
 
-			instances.add(message.getContent());
+			instances.add(Long.valueOf(message.getContent()));
 
 			try {
 				channel.deleteMessages(message).join();
@@ -44,12 +44,18 @@ public class CheckInstances {
 			}
 		}
 
-		int earliestInstant = sentMessage.compareTo(instances.get(0));
+		long smallestValue = Math.abs(sentMessage - instances.get(0));
 
 		for (int i = 1; i < instances.size(); i++) {
-			if (sentMessage)
-				System.out.println(sentMessage.getEpochSecond()
-						- instances.get(0).getEpochSecond());
+			long current = Math.abs(sentMessage - instances.get(i));
+
+			if (current < smallestValue) {
+				smallestValue = current;
+			}
+		}
+
+		if (smallestValue != 0) {
+			System.exit(0);
 		}
 	}
 }
