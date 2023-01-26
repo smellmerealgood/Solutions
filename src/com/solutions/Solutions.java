@@ -112,7 +112,7 @@ public class Solutions {
 						thread.interrupt();
 				}
 
-				Thread.currentThread().interrupt();
+				return;
 			}
 		});
 	}
