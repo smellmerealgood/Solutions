@@ -11,6 +11,7 @@ import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.MessageUpdater;
 import org.javacord.api.event.message.MessageCreateEvent;
 
+import com.solutions.Solutions;
 import com.solutions.utilities.Markdown;
 import com.solutions.utilities.Responses;
 
@@ -45,8 +46,9 @@ public class Quote {
 					mb.append("\n\n>>> " + quote);
 				}
 
-				mb.send(event.getApi().getTextChannelById("1040832617773285376")
-						.get()).join();
+				mb.send(event.getApi()
+						.getTextChannelById(Solutions.CHANNEL_QUOTES).get())
+						.join();
 
 				wrapper[1] = true;
 				return;

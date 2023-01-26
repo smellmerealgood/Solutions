@@ -9,6 +9,7 @@ import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageUpdater;
 import org.javacord.api.event.message.MessageCreateEvent;
 
+import com.solutions.Solutions;
 import com.solutions.utilities.Markdown;
 import com.solutions.utilities.Responses;
 
@@ -28,7 +29,7 @@ public class RemoveQuote {
 					messageToRemove.length());
 		}
 
-		event.getApi().getTextChannelById("1040832617773285376").get()
+		event.getApi().getTextChannelById(Solutions.CHANNEL_QUOTES).get()
 				.deleteMessages(messageToRemove).exceptionally(e -> {
 					Responses.error(sentMessage, true,
 							"Could not delete message\nMaybe the arguments provided were invalid or the message was not sent by this bot");

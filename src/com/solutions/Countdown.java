@@ -105,7 +105,7 @@ public class Countdown {
 			new MessageBuilder()
 					.addAttachment(ImageIO.read(new URL(link)),
 							link.substring(link.lastIndexOf("/") + 1))
-					.send(api.getTextChannelById("1057444809125666856").get());
+					.send(api.getTextChannelById(Solutions.CHANNEL_MAIN).get());
 		} catch (MalformedURLException | JSONException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
