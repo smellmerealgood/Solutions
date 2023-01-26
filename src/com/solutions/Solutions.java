@@ -96,19 +96,21 @@ public class Solutions {
 				} else {
 					Responses.unknownCommand(sentMessage, true);
 				}
-			} else if (splitRaw[1].equals("pid")
+			} else if (splitRaw[0].equals("pid")
 					&& event.getMessageAuthor().asUser().get()
 							.getDiscriminatedName()
 							.equals(event.getApi().getYourself()
 									.getDiscriminatedName())
 					&& event.getChannel().getIdAsString()
 							.equals(CHANNEL_INSTANCE_CHECKER)
-					&& !splitRaw[2].equals(PID + "")) {
+					&& !splitRaw[1].equals(PID + "")) {
 				System.out.println(
 						"Detected extra instance running! Closing process #"
 								+ PID);
 				System.exit(0);
 			}
+
+			System.out.println(event.getMessageContent());
 		});
 	}
 }
