@@ -105,12 +105,14 @@ public class Solutions {
 							.equals(CHANNEL_INSTANCE_CHECKER)
 					&& !splitRaw[1].equals(PID + "")) {
 				System.out.println(
-						"Detected extra instance running! Closing process #"
+						"Detected extra instance running! Suspending process #"
 								+ PID);
 				for (Thread thread : Thread.getAllStackTraces().keySet()) {
 					if (thread.getState() == Thread.State.RUNNABLE)
 						thread.interrupt();
 				}
+
+				Thread.currentThread().interrupt();
 			}
 		});
 	}
