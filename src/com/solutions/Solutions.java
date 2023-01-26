@@ -36,7 +36,7 @@ public class Solutions {
 				.setToken(System.getenv("TOKEN")).login().join();
 		api.updateActivity(ActivityType.PLAYING, BOT_PREFIX + " help");
 
-		new MessageBuilder().setContent("pid" + PID)
+		new MessageBuilder().setContent("pid " + PID)
 				.send(api.getTextChannelById(CHANNEL_INSTANCE_CHECKER).get());
 
 		new Countdown(api);
