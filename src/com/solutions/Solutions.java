@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import javax.security.auth.login.LoginException;
@@ -23,7 +24,7 @@ import com.solutions.commands.RemoveQuote;
 import com.solutions.utilities.Responses;
 
 public class Solutions {
-	public static final long PID = ProcessHandle.current().pid();
+	public static final long PID = new Random().nextLong();
 	public static final String BOT_PREFIX = "sol",
 			CHANNEL_MAIN = "1025957114671280179",
 			CHANNEL_QUOTES = "1040832617773285376",
